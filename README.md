@@ -11,11 +11,10 @@ You can find more resources on
 
 ## How to test
 
-TODO : find a way to push automaticaly all dependencies:
+TODO : makefile
 
 ```bash
-ufs put external_modules/servo.py
-ufs put external_modules/move_mini.py
-ufs put samples/main.py
+./deploy_dependencies.sh 
+uflash <your_program.py>
 ```
 
