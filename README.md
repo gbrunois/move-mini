@@ -14,7 +14,6 @@ You can find more resources on
 TODO : makefile
 
 ```bash
-./deploy_dependencies.sh 
-uflash <your_program.py>
+./build.py <your_program.py>
 ```
 
