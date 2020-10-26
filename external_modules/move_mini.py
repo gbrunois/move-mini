@@ -1,6 +1,11 @@
+from time import sleep
+
 import neopixel
 from microbit import *
-from servo import Servo
+
+# <Includes>
+from external_modules.servo import *
+# </Includes>
 
 
 class MoveMini:
@@ -48,5 +53,6 @@ class MoveMini:
         self.servo_0.stop()
         self.servo_1.stop()
 
-    def wait_micro_secondes(self, time_to_wait: int):
+    def wait_micro_secondes(self, time_to_wait: float):
         sleep(time_to_wait / 1000)
+

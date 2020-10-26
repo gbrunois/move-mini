@@ -1,9 +1,11 @@
 """
 Simple robot rotation
 """
-
 from microbit import *
-from move_mini import MoveMini
+
+# <Includes>
+from external_modules.move_mini import *
+# </Includes>
 
 move_mini = MoveMini()
 
