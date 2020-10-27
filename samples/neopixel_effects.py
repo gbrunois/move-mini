@@ -13,4 +13,4 @@ neopixel_effects = NeoPixelEffects(move_mini.neopixel)
 
 while True:
     neopixel_effects.rainbow_cycle(0.001) # rainbow cycle with 1ms delay per step
-    time.sleep(0.2)
+    sleep(0.2)
