@@ -1,33 +1,11 @@
-import neopixel as AdaFruit_NeoPixel
+from neopixel import NeoPixel as AdaNeoPixel
 import time
 
 ColorRGB = (int, int, int)
 
-# block=red
-Red = 0xFF0000
-# block=orange
-Orange = 0xFFA500
-# block=yellow
-Yellow = 0xFFFF00
-# block=green
-Green = 0x00FF00
-# block=blue
-Blue = 0x0000FF
-# block=indigo
-Indigo = 0x4b0082
-# block=violet
-Violet = 0x8a2be2
-# block=purple
-Purple = 0xFF00FF
-# block=white
-White = 0xFFFFFF
-# block=black
-Black = 0x000000
-
-
 class NeoPixel:
 
-    def __init__(self, pixels: AdaFruit_NeoPixel.NeoPixel) -> None:
+    def __init__(self, pixels: AdaNeoPixel) -> None:
         self._pixels = pixels
         self.num_pixels = len(pixels)
 
@@ -73,7 +51,7 @@ class NeoPixelEffects:
             b = int(255 - pos * 3)
         return r, g, b
 
-    def rainbow_cycle(self, wait: int):
+    def rainbow_cycle(self, wait: float):
         for j in range(256):
             for i in range(self._neopixel.num_pixels):
                 pixel_index = (i * 256 // self._neopixel.num_pixels) + j
@@ -111,6 +89,5 @@ class NeoPixelEffects:
 
         r, g, b = hsl2rgb(h, x, chroma)
         return round((r + m) * 255), round((g + m) * 255), round((b + m) * 255)
-
 
     # TODO Add ease quadratic functions
