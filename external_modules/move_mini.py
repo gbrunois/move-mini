@@ -1,10 +1,11 @@
 from time import sleep
 
-import neopixel
-from microbit import *
+from neopixel import NeoPixel as AdaNeoPixel
+from microbit import pin0, pin1, pin2
 
 # <Includes>
 from external_modules.servo import *
+from external_modules.neopixel_mini import *
 # </Includes>
 
 
@@ -18,7 +19,7 @@ class MoveMini:
     _number_of_degrees_per_sec = 200
 
     def __init__(self):
-        self.neopixel = neopixel.NeoPixel(pin0, 5)
+        self.neopixel = NeoPixel(AdaNeoPixel(pin0, 5))
         self.servo_0 = Servo(pin1)  # Right Servo Control
         self.servo_1 = Servo(pin2)  # Left Servo Control
 
@@ -55,4 +56,3 @@ class MoveMini:
 
     def wait_micro_secondes(self, time_to_wait: float):
         sleep(time_to_wait / 1000)
-

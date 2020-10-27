@@ -4,7 +4,9 @@ import argparse
 import re
 from os.path import join
 from tempfile import gettempdir
+
 import uflash
+import python_minifier
 
 
 def replace_includes(content: str, file_path: str) -> str:
@@ -86,7 +88,13 @@ if __name__ == "__main__":
 
     try:
         with open(output_file_path, "w") as target:
-            target.write(replace_includes(main_file_read_data, main_file_path))
+            target.write(
+                python_minifier.minify(
+                    replace_includes(main_file_read_data, main_file_path),
+                    remove_literal_statements=True
+
+                )
+            )
     except Exception as write_exception:
         raise ValueError(f"Unable to write output file {output_file_path}") from write_exception
 
