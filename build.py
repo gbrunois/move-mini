@@ -1,8 +1,11 @@
 #!/usr/bin/env python3
 
 import argparse
+from os import path
+import os
 import re
-from os.path import join
+import sys
+import time
 from tempfile import gettempdir
 
 import uflash
@@ -57,6 +60,50 @@ def resolves(includes: str, file_path: str) -> str:
     return "\n".join(resolved_content)
 
 
+def flash(path_to_python: str, path_to_output: str, flash: bool):
+    try:
+        with open(path_to_python, 'r') as file:
+            main_file_read_data = file.read()
+    except Exception as open_exception:
+        raise ValueError(f"Unable to read {path_to_python}") from open_exception
+
+    try:
+        with open(path_to_output, "w") as target:
+            target.write(
+                python_minifier.minify(
+                    replace_includes(main_file_read_data, path_to_python),
+                    remove_literal_statements=True
+
+                )
+            )
+    except Exception as write_exception:
+        raise ValueError(f"Unable to write output file {path_to_output}") from write_exception
+
+    if flash:
+        uflash.flash(path_to_output)
+
+
+def watch_file(path, func, *args, **kwargs):
+    """
+    Watch a file for changes by polling its last modification time. Call the
+    provided function with *args and **kwargs upon modification.
+    """
+    if not path:
+        raise ValueError('Please specify a file to watch')
+    print('Watching "{}" for changes'.format(path))
+    last_modification_time = os.path.getmtime(path)
+    try:
+        while True:
+            time.sleep(1)
+            new_modification_time = os.path.getmtime(path)
+            if new_modification_time == last_modification_time:
+                continue
+            func(*args, **kwargs)
+            last_modification_time = new_modification_time
+    except KeyboardInterrupt:
+        pass
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser("Build a microbit program")
 
@@ -66,7 +113,7 @@ if __name__ == "__main__":
 
     parser.add_argument('--output', '-o',
                         help='Output path',
-                        default=join(gettempdir(), f"main.py"),
+                        default=path.join(gettempdir(), f"main.py"),
                         action='store')
 
     parser.add_argument('--no-flash',
@@ -74,29 +121,30 @@ if __name__ == "__main__":
                         default=False,
                         action='store_true')
 
+    parser.add_argument('-w', '--watch',
+                        action='store_true',
+                        help='Watch the source file for changes.')
+
     args = parser.parse_args()
     
     main_file_path = args.input
     output_file_path = args.output
     flash_microbit = not args.no_flash
 
-    try:
-        with open(main_file_path, 'r') as file:
-            main_file_read_data = file.read()
-    except Exception as open_exception:
-        raise ValueError(f"Unable to read {main_file_path}") from open_exception
+    if args.watch:
+        try:
+            watch_file(main_file_path, flash, path_to_python=main_file_path, path_to_output=output_file_path, flash=flash_microbit)
+        except Exception as ex:
+            error_message = "Error watching {source}: {error!s}"
+            print(error_message.format(source=main_file_path, error=ex),
+                  file=sys.stderr)
+            sys.exit(1)
 
-    try:
-        with open(output_file_path, "w") as target:
-            target.write(
-                python_minifier.minify(
-                    replace_includes(main_file_read_data, main_file_path),
-                    remove_literal_statements=True
-
-                )
-            )
-    except Exception as write_exception:
-        raise ValueError(f"Unable to write output file {output_file_path}") from write_exception
-
-    if flash_microbit:
-        uflash.flash(output_file_path)
+    else:
+        try:
+            flash(path_to_python=main_file_path, path_to_output=output_file_path, flash=flash_microbit)
+        except Exception as ex:
+            error_message = "Error building {source}: {error!s}"
+            print(error_message.format(source=main_file_path, error=ex),
+                  file=sys.stderr)
+            sys.exit(1)
