@@ -8,6 +8,11 @@ You can find more resources on
 
 ## Prerequisites
 
+### Recommanded environment
+Use Microsoft Visual Studio Code with these extensions:
+* [Python] (https://github.com/Microsoft/vscode-python)
+* [Device Simulator Express] (https://github.com/microsoft/vscode-python-devicesimulator)
+
 ### Creating a virtual environment
 On Microsoft Windows, we recommand enabling the Windows Subsystem for Linux (WSL) or use Git bash shell
 
