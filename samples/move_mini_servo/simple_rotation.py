@@ -1,5 +1,11 @@
 """
 Simple robot rotation
+
+Turn Left
+Drive forward
+Turn Right
+Drive Forward
+
 """
 from microbit import *
 

@@ -7,6 +7,7 @@ You can find more resources on
 * https://github.com/bbcmicrobit/micropython
 * https://microbit-micropython.readthedocs.io/en/latest/
 
+
 ## Prerequisites
 
 ### Recommanded environment
@@ -19,9 +20,11 @@ Or use PyCharm with [pseudo-microbit](https://mryslab.github.io/pseudo-microbit/
 
 ### Creating a virtual environment
 
+#### Windows
+
 On Microsoft Windows, we recommand enabling the Windows Subsystem for Linux (WSL) or use Git bash shell
 
-Execute the command : 
+Execute these commands : 
 ```bash
 pip install virtualenv
 virtualenv venv
@@ -32,6 +35,14 @@ Note : On Microsoft Windows 10, disable python3 and python application aliases.
 
 More information : https://www.liquidweb.com/kb/how-to-setup-a-python-virtual-environment-on-windows-10/
 
+#### Linux
+Execute these commands : 
+```bash
+pip install virtualenv
+virtualenv venv
+source venv/bin/activate
+```
+
 ### Install dependencies
 
 Execute the command : 
@@ -39,13 +50,11 @@ Execute the command :
 pip install -r requirements.txt
 ```
 
-## How to test
+## How to build and flash
 
 ```bash
-python build.py samples/neopixel_random.py
+python build.py <your_program.py>
 ```
-
-## Build
 
 The build program uses [uflash](https://uflash.readthedocs.io/en/latest/) for flashing the BBC micro:bit.
 It's not possible to import external python modules with uflash. External files have to be embedded in the main file. For that, you can use this template :
@@ -58,7 +67,10 @@ from external_modules.move_mini import *
 
 All importations between <Includes> tag will be embedded in the main file.
 
+Note: use `--no-flash` and `--output` to preview the generated code without flashing
+
 Another solution is to use [microFS](https://microfs.readthedocs.io/en/latest/). The disavantage with this is you neet to put each dependency manually after flashing the micro:bit
 
-Memory issue : 
+### Memory issue
+
 micro:bit have limited memory capacity. Python program should be minified to avoid memory issue. For more information : http://docs.micropython.org/en/latest/reference/constrained.html#flash-memory
