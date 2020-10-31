@@ -1,7 +1,9 @@
 """
 neopixel_effects.py
+
 Repeatedly displays random colours onto the LED strip.
 """
+
 # <Includes>
 from external_modules.move_mini import *
 # </Includes>

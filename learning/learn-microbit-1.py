@@ -3,7 +3,7 @@ First program with Microbit.
 Display Hello ! on the 5x5 led matrix
 
 Execute this command :
-python build.py samples/learn-microbit-1.py
+python build.py learning/learn-microbit-1.py
 """
 
 import microbit

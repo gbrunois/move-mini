@@ -1,5 +1,6 @@
 """
 neopixel_random.py
+
 Repeatedly displays random colours onto the LED strip.
 """
 
