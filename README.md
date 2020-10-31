@@ -52,8 +52,22 @@ pip install -r requirements.txt
 
 ## How to build and flash
 
+Build and flash
+
 ```bash
 python build.py <your_program.py>
+```
+
+Watch for changes
+
+```bash
+python build.py --watch <your_program.py>
+```
+
+No flashing
+
+```bash
+python build.py --no-flash --output=out <your_program.py>
 ```
 
 The build program uses [uflash](https://uflash.readthedocs.io/en/latest/) for flashing the BBC micro:bit.
@@ -66,8 +80,6 @@ from external_modules.move_mini import *
 ```
 
 All importations between <Includes> tag will be embedded in the main file.
-
-Note: use `--no-flash` and `--output` to preview the generated code without flashing
 
 Another solution is to use [microFS](https://microfs.readthedocs.io/en/latest/). The disavantage with this is you neet to put each dependency manually after flashing the micro:bit
 
